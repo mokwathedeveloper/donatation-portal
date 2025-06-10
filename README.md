@@ -1,38 +1,96 @@
-# sv
+# Donation Platform
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+A modern web application built with SvelteKit that allows anonymous donations to social projects through M-Pesa integration.
 
-## Creating a project
+## Features
 
-If you're seeing this, you've probably already done this step. Congrats!
+- 🎯 View and donate to social projects anonymously
+- 💳 M-Pesa integration for secure payments
+- 📊 Admin dashboard to track donations and project progress
+- 🔒 Secure authentication for admin access
+- 📱 Responsive design with modern UI
+- 🚀 Real-time updates and loading states
 
-```bash
-# create a new project in the current directory
-npx sv create
+## Tech Stack
 
-# create a new project in my-app
-npx sv create my-app
+- **Frontend**: SvelteKit, TailwindCSS, DaisyUI
+- **Backend**: SvelteKit API Routes
+- **Database**: MongoDB with Mongoose
+- **Payment**: M-Pesa Integration
+- **Authentication**: Custom auth with localStorage
+
+## Getting Started
+
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd donation-platform
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Set up environment variables:
+   Create a `.env` file with:
+   ```
+   MONGODB_URI=your_mongodb_uri
+   MPESA_CONSUMER_KEY=your_mpesa_consumer_key
+   MPESA_CONSUMER_SECRET=your_mpesa_consumer_secret
+   MPESA_PASSKEY=your_mpesa_passkey
+   MPESA_SHORTCODE=your_mpesa_shortcode
+   ```
+
+4. Seed the database:
+   ```bash
+   npm run seed
+   ```
+
+5. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+## Project Structure
+
+```
+donation-platform/
+├── src/
+│   ├── lib/
+│   │   ├── components/    # Reusable UI components
+│   │   ├── db/           # Database configuration
+│   │   ├── models/       # MongoDB models
+│   │   ├── stores/       # Svelte stores
+│   │   └── utils/        # Utility functions
+│   ├── routes/
+│   │   ├── admin/        # Admin dashboard
+│   │   └── api/          # API endpoints
+│   └── styles/           # Global styles
 ```
 
-## Developing
+## API Endpoints
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+- `GET /api/projects` - Get all projects
+- `POST /api/donations` - Create a new donation
+- `GET /api/donations` - Get all donations (admin only)
+- `POST /api/mpesa/callback` - M-Pesa callback endpoint
 
-```bash
-npm run dev
+## Admin Access
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+- URL: `/admin`
+- Default credentials:
+  - Username: `admin`
+  - Password: `admin123`
 
-## Building
+## Contributing
 
-To create a production version of your app:
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-```bash
-npm run build
-```
+## License
 
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
