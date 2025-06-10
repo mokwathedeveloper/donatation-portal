@@ -1,1 +1,23 @@
-import mongoose from "mongoose";\n\nconst MONGODB_URI = "mongodb+srv://mokwa:mokwa123@donation.ulqppbq.mongodb.net/?retryWrites=true&w=majority&appName=donation";\n\nlet cached = (global as any).mongoose;\n\nif (!cached) {\n  cached = (global as any).mongoose = { conn: null, promise: null };\n}\n\nexport async function connectToDatabase() {\n  if (cached.conn) {\n    return cached.conn;\n  }\n\n  if (!cached.promise) {\n    const opts = {\n      bufferCommands: false,\n    };\n\n    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {\n      return mongoose;\n    });\n  }\n\n  try {\n    cached.conn = await cached.promise;\n  } catch (e) {\n    cached.promise = null;\n    throw e;\n  }\n\n  return cached.conn;\n}
+import mongoose from 'mongoose';
+import { MONGODB_URI } from '$lib/utils/env';
+
+if (!MONGODB_URI) {
+  throw new Error('Please define the MONGODB_URI environment variable');
+}
+
+let isConnected = false;
+
+export async function connectDB() {
+  if (isConnected) {
+    return;
+  }
+
+  try {
+    await mongoose.connect(MONGODB_URI);
+    isConnected = true;
+    console.log('Connected to MongoDB');
+  } catch (error) {
+    console.error('Failed to connect to MongoDB:', error);
+    throw error;
+  }
+}
