@@ -1,1 +1,54 @@
-import mongoose from "mongoose";\n\nconst donationSchema = new mongoose.Schema({\n  projectId: {\n    type: mongoose.Schema.Types.ObjectId,\n    ref: "Project",\n    required: true,\n  },\n  amount: {\n    type: Number,\n    required: true,\n  },\n  phoneNumber: {\n    type: String,\n    required: true,\n  },\n  status: {\n    type: String,\n    enum: ["pending", "completed", "failed"],\n    default: "pending",\n  },\n  mpesaTransactionId: {\n    type: String,\n  },\n  createdAt: {\n    type: Date,\n    default: Date.now,\n  },\n});\n\nexport const Donation = mongoose.models.Donation || mongoose.model("Donation", donationSchema);
+import mongoose from "mongoose";
+
+const donationSchema = new mongoose.Schema({
+  projectId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Project",
+    required: true,
+  },
+  amount: {
+    type: Number,
+    required: true,
+  },
+  phoneNumber: {
+    type: String,
+    required: true,
+  },
+  status: {
+    type: String,
+    enum: ["pending", "completed", "failed"],
+    default: "pending",
+  },
+  mpesaTransactionId: {
+    type: String,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+// Update timestamps on save
+donationSchema.pre('save', function(next) {
+  this.updatedAt = new Date();
+  next();
+});
+
+export type DonationStatus = "pending" | "completed" | "failed";
+
+export type Donation = {
+  _id: string;
+  projectId: string;
+  amount: number;
+  phoneNumber: string;
+  status: DonationStatus;
+  mpesaTransactionId?: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export const DonationModel = mongoose.models.Donation || mongoose.model<Donation>("Donation", donationSchema);

@@ -1,1 +1,51 @@
-import mongoose from "mongoose";\n\nconst projectSchema = new mongoose.Schema({\n  title: {\n    type: String,\n    required: true,\n  },\n  description: {\n    type: String,\n    required: true,\n  },\n  goal: {\n    type: Number,\n    required: true,\n  },\n  currentAmount: {\n    type: Number,\n    default: 0,\n  },\n  createdAt: {\n    type: Date,\n    default: Date.now,\n  },\n});\n\nexport const Project = mongoose.models.Project || mongoose.model("Project", projectSchema);
+import mongoose from "mongoose";
+
+const projectSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  goal: {
+    type: Number,
+    required: true,
+  },
+  amountRaised: {
+    type: Number,
+    default: 0,
+  },
+  imageUrl: {
+    type: String,
+    required: false,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+// Update timestamps on save
+projectSchema.pre('save', function(next) {
+  this.updatedAt = new Date();
+  next();
+});
+
+export type Project = {
+  _id: string;
+  title: string;
+  description: string;
+  goal: number;
+  amountRaised: number;
+  imageUrl?: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export const ProjectModel = mongoose.models.Project || mongoose.model<Project>("Project", projectSchema);
