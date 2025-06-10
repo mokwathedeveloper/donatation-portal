@@ -23,7 +23,7 @@ A modern web application built with SvelteKit that allows anonymous donations to
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/mokwathedeveloper/donatation-portal.git
    cd donation-platform
    ```
 
